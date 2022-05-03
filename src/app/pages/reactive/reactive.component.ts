@@ -43,12 +43,26 @@ export class ReactiveComponent implements OnInit {
     return this.forma.get('correo')?.invalid && this.forma.get('correo')?.touched;
   }
 
+  get provinciaNoValida() {
+    return this.forma.get('direccion.provincia')?.invalid && this.forma.get('direccion.provincia')?.touched;
+  }
+
+  get ciudadNoValida() {
+    return this.forma.get('direccion.ciudad')?.invalid && this.forma.get('direccion.provincia')?.touched;
+  }
+
   guardar(){
     console.log(this.forma);
 
     if(this.forma.invalid){
       return Object.values(this.forma.controls).forEach(control => {
-        control.markAsTouched();
+        if(control instanceof FormGroup){
+          Object.values(control.controls).forEach(control => {
+            control.markAsTouched();
+          })
+        }else{
+          control.markAsTouched();
+        }
       });
     }
   }
