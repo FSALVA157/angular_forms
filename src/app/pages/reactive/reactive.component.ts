@@ -14,6 +14,7 @@ export class ReactiveComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.crearFormulario();
+    this.setDataForm();
    }
 
   ngOnInit(): void {
@@ -28,6 +29,19 @@ export class ReactiveComponent implements OnInit {
         provincia: ['', Validators.required],
         ciudad: ['', Validators.required],
       })
+    });
+  }
+
+  setDataForm(){
+    //this.forma.setValue({
+      this.forma.reset({
+            apellido: "Mariano",
+            nombre: "Grondona",
+            correo: "mgrondona@gmail.com",
+            direccion:{
+            provincia: "Salta",
+            ciudad: "Capital"
+            }
     });
   }
 
@@ -65,6 +79,7 @@ export class ReactiveComponent implements OnInit {
         }
       });
     }
+    this.forma.reset();
   }
 
 }
