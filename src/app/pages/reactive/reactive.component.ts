@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-reactive',
@@ -28,7 +28,8 @@ export class ReactiveComponent implements OnInit {
       direccion: this.fb.group({
         provincia: ['', Validators.required],
         ciudad: ['', Validators.required],
-      })
+      }),
+      pasatiempos: this.fb.array([])
     });
   }
 
@@ -41,8 +42,19 @@ export class ReactiveComponent implements OnInit {
             direccion:{
             provincia: "Salta",
             ciudad: "Capital"
-            }
+            },
+            pasatiempos: this.fb.array([])
     });
+    ['primero', 'segundo', 'tercero'].forEach(valor => {this.pasatiempos.push(this.fb.control(valor))})
+  }
+
+  agregarPasatiempo(){
+    this.pasatiempos.push(this.fb.control(''));
+    //this.pasatiempos.push(this.fb.control('', Validators.required));
+  }
+
+  borrarPasatiempo(index: number){
+    this.pasatiempos.removeAt(index);
   }
 
   get nombreNoValido() {
@@ -63,6 +75,10 @@ export class ReactiveComponent implements OnInit {
 
   get ciudadNoValida() {
     return this.forma.get('direccion.ciudad')?.invalid && this.forma.get('direccion.provincia')?.touched;
+  }
+
+  get pasatiempos(){
+    return this.forma.get('pasatiempos') as FormArray;
   }
 
   guardar(){
