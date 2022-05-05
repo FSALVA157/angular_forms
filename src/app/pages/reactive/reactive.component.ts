@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { ValidadoresService } from 'src/app/services/validadores.service';
 
 @Component({
   selector: 'app-reactive',
@@ -11,7 +12,8 @@ export class ReactiveComponent implements OnInit {
   forma!: FormGroup;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _validadores: ValidadoresService
   ) {
     this.crearFormulario();
     this.setDataForm();
@@ -22,9 +24,11 @@ export class ReactiveComponent implements OnInit {
 
   crearFormulario(){
     this.forma = this.fb.group({
-      apellido: ['', [Validators.required, Validators.minLength(5)]],
+      apellido: ['', [Validators.required, Validators.minLength(5), this._validadores.noHerrera]],
       nombre  : ['',[Validators.required, Validators.minLength(5)]],
       correo  : ['', [Validators.required, Validators.minLength(5), Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")]],
+      pass1  : ['',[Validators.required, Validators.minLength(5)]],
+      pass2  : ['',[Validators.required, Validators.minLength(5)]],
       direccion: this.fb.group({
         provincia: ['', Validators.required],
         ciudad: ['', Validators.required],
@@ -36,8 +40,8 @@ export class ReactiveComponent implements OnInit {
   setDataForm(){
     //this.forma.setValue({
       this.forma.reset({
-            apellido: "Mariano",
-            nombre: "Grondona",
+            apellido: "Grondona",
+            nombre: "Mariano",
             correo: "mgrondona@gmail.com",
             direccion:{
             provincia: "Salta",
@@ -67,6 +71,17 @@ export class ReactiveComponent implements OnInit {
 
   get correoNoValido() {
     return this.forma.get('correo')?.invalid && this.forma.get('correo')?.touched;
+  }
+
+  get pass1NoValido() {
+    return this.forma.get('pass1')?.invalid && this.forma.get('pass1')?.touched;
+  }
+
+  get pass2NoValido() {
+    const cont1 = this.forma.get('pass1')?.value;
+    const cont2 = this.forma.get('pass2')?.value;
+    return (cont1 === cont2)? false:true;
+
   }
 
   get provinciaNoValida() {
