@@ -27,6 +27,7 @@ export class ReactiveComponent implements OnInit {
       apellido: ['', [Validators.required, Validators.minLength(5), this._validadores.noHerrera]],
       nombre  : ['',[Validators.required, Validators.minLength(5)]],
       correo  : ['', [Validators.required, Validators.minLength(5), Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")]],
+      usuario  : ['',,this._validadores.existeUsuario],
       pass1  : ['',[Validators.required, Validators.minLength(5)]],
       pass2  : ['',[Validators.required, Validators.minLength(5)]],
       direccion: this.fb.group({
@@ -34,7 +35,10 @@ export class ReactiveComponent implements OnInit {
         ciudad: ['', Validators.required],
       }),
       pasatiempos: this.fb.array([])
-    });
+    },{
+      validators: [this._validadores.passwordIguales('pass1','pass2')]
+    }
+    );
   }
 
   setDataForm(){
@@ -71,6 +75,10 @@ export class ReactiveComponent implements OnInit {
 
   get correoNoValido() {
     return this.forma.get('correo')?.invalid && this.forma.get('correo')?.touched;
+  }
+
+  get usuarioNoValido() {
+    return this.forma.get('usuario')?.invalid && this.forma.get('usuario')?.touched;
   }
 
   get pass1NoValido() {
