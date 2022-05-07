@@ -42,9 +42,9 @@
              type="email"
              placeholder="Correo electrónico"
              formControlName="correo"
-             [class.is-invalid]="usuarioNoValido"
+             [class.is-invalid]="correoNoValido"
              >
-             <small *ngIf="usuarioNoValido" class="text-danger">ingrese un correo válido</small>
+             <small *ngIf="correoNoValido" class="text-danger">ingrese un correo válido</small>
     </div>
   </div>
 
@@ -54,11 +54,11 @@
 
       <input class="form-control"
              type="text"
-             placeholder="Usuario"
+             placeholder="nombre de usuario"
              formControlName="usuario"
-             [class.is-invalid]="apellidoNoValido"
+             [class.is-invalid]="usuarioNoValido"
              >
-             <small *ngIf="apellidoNoValido" class="text-danger">Usuario ya Existe</small>
+             <small *ngIf="usuarioNoValido" class="text-danger">Usuario ya Existe</small>
     </div>
   </div>
 

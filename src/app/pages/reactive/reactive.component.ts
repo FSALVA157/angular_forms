@@ -17,6 +17,7 @@ export class ReactiveComponent implements OnInit {
   ) {
     this.crearFormulario();
     this.setDataForm();
+    this.crearListeners();
    }
 
   ngOnInit(): void {
@@ -54,6 +55,26 @@ export class ReactiveComponent implements OnInit {
             pasatiempos: this.fb.array([])
     });
     ['primero', 'segundo', 'tercero'].forEach(valor => {this.pasatiempos.push(this.fb.control(valor))})
+  }
+
+  crearListeners(){
+    //detectar cambio en la data en los valores del formulario
+    this.forma.valueChanges.subscribe(valor => {
+      console.log(valor)
+    });
+
+    //detectar cambios en el estado del formulario
+    this.forma.statusChanges.subscribe(status => {
+        console.log(status);
+    });
+
+    //detectar cambios en un control
+    this.forma.get('nombre')?.valueChanges.subscribe(valor => {
+      console.log(valor);
+    });
+
+
+
   }
 
   agregarPasatiempo(){
